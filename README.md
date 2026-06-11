@@ -2,7 +2,7 @@
 
 > The most advanced personal finance platform for Israeli households.
 
-## 🎯 What is מאזן?
+## 🎯 What is Maazan?
 
 מאזן is an AI-native Financial Operating System that gives every Israeli household access to a personal CFO. It transforms complex financial data into simple insights, actionable recommendations, and automated planning — all in native Hebrew.
 
