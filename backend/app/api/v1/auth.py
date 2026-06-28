@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from datetime import datetime, timezone
+import logging
 
 from app.core.database import get_db
 from app.core.security import (
@@ -20,6 +21,8 @@ from app.schemas.auth import (
     TokenResponse,
 )
 from app.config import settings
+
+logger = logging.getLogger("maazan.auth")
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -61,18 +64,25 @@ async def register(data: UserRegister, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/login", response_model=AuthResponse)
-async def login(data: UserLogin, db: AsyncSession = Depends(get_db)):
+async def login(data: UserLogin, request: Request, db: AsyncSession = Depends(get_db)):
+    client_ip = request.client.host if request.client else "unknown"
+
     # Find user
     result = await db.execute(select(User).where(User.email == data.email))
     user = result.scalar_one_or_none()
 
     if not user or not user.password_hash:
+        # Log failed attempt — user not found
+        logger.warning(f"Failed login: unknown email={data.email} ip={client_ip}")
+        # Still run a hash to prevent timing attacks
+        get_password_hash("dummy-password-for-timing")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="אימייל או סיסמה שגויים",
         )
 
     if not verify_password(data.password, user.password_hash):
+        logger.warning(f"Failed login: wrong password email={data.email} ip={client_ip}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="אימייל או סיסמה שגויים",
@@ -82,6 +92,8 @@ async def login(data: UserLogin, db: AsyncSession = Depends(get_db)):
     user.last_login_at = datetime.now(timezone.utc)
     await db.commit()
     await db.refresh(user)
+
+    logger.info(f"Successful login: email={data.email} ip={client_ip}")
 
     # Generate tokens
     token_data = {"sub": str(user.id), "email": user.email}

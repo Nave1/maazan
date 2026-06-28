@@ -4,9 +4,11 @@ from app.config import settings
 
 engine = create_async_engine(
     settings.database_url,
-    echo=settings.app_debug,
+    echo=False,  # Never echo SQL in any environment — use logging instead
     pool_size=20,
     max_overflow=10,
+    pool_pre_ping=True,  # Verify connections before use
+    pool_recycle=3600,  # Recycle connections after 1 hour
 )
 
 AsyncSessionLocal = async_sessionmaker(

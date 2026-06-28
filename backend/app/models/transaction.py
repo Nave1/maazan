@@ -51,6 +51,7 @@ class Transaction(Base):
     notes = Column(Text, nullable=True)
     is_recurring = Column(Boolean, server_default="false")
     source = Column(String(20), server_default="manual")
+    import_batch_id = Column(UUID(as_uuid=True), ForeignKey("import_batches.id"), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now())
 

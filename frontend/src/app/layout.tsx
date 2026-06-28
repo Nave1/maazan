@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import AccessibilityMenu from "@/components/AccessibilityMenu";
+import CookieConsent from "@/components/CookieConsent";
 
 export const metadata: Metadata = {
   title: "מאזן – Financial Operating System",
@@ -28,6 +30,8 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-background font-hebrew antialiased">
         {children}
+        <AccessibilityMenu />
+        <CookieConsent />
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings
 from typing import List
 import os
+import secrets
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,7 +11,7 @@ class Settings(BaseSettings):
     # App
     app_name: str = "מאזן"
     app_env: str = "development"
-    app_debug: bool = True
+    app_debug: bool = False
     frontend_url: str = "http://localhost:3000"
     backend_url: str = "http://localhost:8000"
 
@@ -22,10 +23,10 @@ class Settings(BaseSettings):
     redis_url: str = ""
 
     # JWT
-    jwt_secret_key: str = "change-this-to-a-random-secret-key-at-least-32-chars"
+    jwt_secret_key: str = secrets.token_urlsafe(64)
     jwt_algorithm: str = "HS256"
-    access_token_expire_minutes: int = 60
-    refresh_token_expire_days: int = 30
+    access_token_expire_minutes: int = 15
+    refresh_token_expire_days: int = 7
 
     # OpenAI
     openai_api_key: str = ""
@@ -38,6 +39,17 @@ class Settings(BaseSettings):
 
     # CORS
     cors_origins: List[str] = ["http://localhost:3000"]
+
+    # Rate Limiting
+    rate_limit_per_minute: int = 60
+    auth_rate_limit_per_minute: int = 5
+
+    # Security
+    max_request_size: int = 10 * 1024 * 1024  # 10MB
+
+    @property
+    def is_production(self) -> bool:
+        return self.app_env == "production"
 
     model_config = {
         "env_file": ".env",
