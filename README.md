@@ -44,25 +44,33 @@
 
 ## 🚀 Quick Start (Development)
 
+### Prerequisites
+- Node.js 18+
+- Python 3.11+
+- PostgreSQL 15+
+
+### Setup
+
 ```bash
-# Clone repository
-git clone https://github.com/your-org/maazan.git
-cd maazan
+# 1. Create database
+psql -U postgres -c "CREATE DATABASE maazan;"
 
-# Start all services
-docker compose up -d
+# 2. Configure environment
+cp .env.example .env
+# Edit .env with your PostgreSQL password and settings
 
-# Frontend (http://localhost:3000)
-cd frontend && npm install && npm run dev
+# 3. Backend setup (http://localhost:8000)
+cd backend
+python -m venv .venv
+.venv\Scripts\activate        # Windows
+pip install -r requirements.txt
+alembic upgrade head          # Run migrations
+uvicorn app.main:app --reload
 
-# Backend (http://localhost:8000)
-cd backend && pip install -r requirements.txt && uvicorn app.main:app --reload
-
-# Run migrations
-cd backend && alembic upgrade head
-
-# Seed categories
-cd backend && python scripts/seed_categories.py
+# 4. Frontend setup (http://localhost:3000)  
+cd frontend
+npm install
+npm run dev
 ```
 
 ---

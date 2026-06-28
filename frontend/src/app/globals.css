@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 210 30% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 30% 18%;
+    --primary: 204 60% 28%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 98%;
+    --secondary-foreground: 210 30% 18%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 210 15% 46%;
+    --accent: 195 60% 94%;
+    --accent-foreground: 204 60% 28%;
+    --destructive: 4 70% 57%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 20% 91%;
+    --input: 210 20% 91%;
+    --ring: 204 60% 28%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 210 30% 8%;
+    --foreground: 210 20% 92%;
+    --card: 210 25% 12%;
+    --card-foreground: 210 20% 92%;
+    --primary: 200 60% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 25% 12%;
+    --secondary-foreground: 210 20% 92%;
+    --muted: 210 25% 15%;
+    --muted-foreground: 210 15% 60%;
+    --accent: 200 30% 18%;
+    --accent-foreground: 200 60% 55%;
+    --destructive: 4 60% 65%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 20% 20%;
+    --input: 210 20% 20%;
+    --ring: 200 60% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Hebrew font for RTL mode */
+[dir="rtl"] body {
+  font-family: "Heebo", "Assistant", "Rubik", sans-serif;
+}
+
+/* English font for LTR mode */
+[dir="ltr"] body {
+  font-family: "Inter", "Nunito Sans", sans-serif;
+}
+
+/* Numbers should always be LTR */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  display: inline-block;
+}
+
+/* Currency display */
+.currency {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+}

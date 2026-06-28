@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Build
+.next/
+out/
+dist/
+build/
+
+# Database
+*.sql.bak
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Testing
+coverage/
+.coverage
+htmlcov/
+
+# Misc
+*.swp
+*.swo
