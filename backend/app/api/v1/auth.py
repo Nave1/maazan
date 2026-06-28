@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from datetime import datetime, timezone
@@ -114,3 +114,34 @@ async def refresh_token(refresh_token: str):
         refresh_token=new_refresh_token,
         expires_in=settings.access_token_expire_minutes * 60,
     )
+
+
+@router.get("/me", response_model=UserResponse)
+async def get_current_user(
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+):
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="לא מחובר",
+        )
+
+    token = auth_header.split(" ")[1]
+    payload = decode_token(token)
+    if not payload or payload.get("type") != "access":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="טוקן לא תקין",
+        )
+
+    result = await db.execute(select(User).where(User.id == payload["sub"]))
+    user = result.scalar_one_or_none()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="משתמש לא נמצא",
+        )
+
+    return UserResponse.model_validate(user)

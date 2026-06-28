@@ -59,6 +59,11 @@
   text-align: right;
 }
 
+/* Form input field */
+.input-field {
+  @apply w-full rounded-lg border bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring;
+}
+
 /* Hebrew font for RTL mode */
 [dir="rtl"] body {
   font-family: "Heebo", "Assistant", "Rubik", sans-serif;
