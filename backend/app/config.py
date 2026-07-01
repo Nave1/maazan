@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     microsoft_client_secret: str = ""
 
     # CORS
-    cors_origins: List[str] = ["http://localhost:3000"]
+    cors_origins: List[str] = ["http://localhost:3000", "http://localhost:3001"]
 
     # Rate Limiting
     rate_limit_per_minute: int = 60

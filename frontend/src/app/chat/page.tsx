@@ -172,13 +172,14 @@ export default function ChatPage() {
           <a href="/dashboard" className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all">
             <span>📊</span> דשבורד
           </a>
-          <a href="/bank" className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+          {/* <a href="/bank" className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all">
             <span>🏦</span> בנקים
-          </a>
+          </a> */}
         </div>
       </aside>
 
-      {/* Chat area */}
+      {/* Chat area */} 
+      
       <div className="flex-1 flex flex-col mr-72">
         {/* Messages */}
         <div className="flex-1 overflow-y-auto px-6 py-8">

@@ -155,10 +155,17 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <nav className="flex-1 px-3 py-4 space-y-1">
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           <NavItem href="/dashboard" icon="📊" label="דשבורד" active />
-          <NavItem href="/bank" icon="🏦" label="בנקים וכרטיסים" />
+          {/* <NavItem href="/bank" icon="🏦" label="בנקים וכרטיסים" /> */}
           <NavItem href="/chat" icon="✨" label="יועץ AI" />
+          <NavItem href="/timeline" icon="📅" label="ציר זמן פיננסי" />
+          <NavItem href="/couple" icon="💑" label="מצב זוגי" />
+          <NavItem href="/reports" icon="📑" label="דוחות" />
+          <NavItem href="/simulator" icon="🔮" label="סימולטור מה-אם" />
+          <NavItem href="/mortgage" icon="🏠" label="מעקב משכנתא" />
+          <NavItem href="/pension" icon="🏛️" label="מעקב פנסיה" />
+          <NavItem href="/score" icon="💯" label="ציון בריאות פיננסית" />
         </nav>
 
         <div className="px-4 py-4 border-t border-white/5">

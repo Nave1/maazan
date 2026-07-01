@@ -61,16 +61,18 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         now = time.time()
 
         # Determine limit based on path
+        is_auth_write = any(p in path for p in ["/auth/login", "/auth/register", "/auth/refresh"])
         is_auth = "/auth/" in path
         window = 60  # 1 minute
-        max_requests = (
-            settings.auth_rate_limit_per_minute
-            if is_auth
-            else settings.rate_limit_per_minute
-        )
+        if is_auth_write:
+            max_requests = settings.auth_rate_limit_per_minute
+        elif is_auth:
+            max_requests = settings.rate_limit_per_minute
+        else:
+            max_requests = settings.rate_limit_per_minute
 
         # Clean old entries
-        key = f"{client_ip}:{path}" if is_auth else client_ip
+        key = f"{client_ip}:{path}" if is_auth_write else client_ip
         self.requests[key] = [t for t in self.requests[key] if now - t < window]
 
         if len(self.requests[key]) >= max_requests:
